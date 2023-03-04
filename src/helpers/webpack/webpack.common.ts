@@ -6,8 +6,6 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 import ESLintPlugin from 'eslint-webpack-plugin'
 
-const isDev = process.env.NODE_ENV === 'development'
-
 const config: Configuration = {
 	entry: './src/index.tsx',
 	output: {
@@ -66,10 +64,12 @@ const config: Configuration = {
 			},
 			{
 				test: /\.css$/i,
+				exclude: /node_modules/,
 				use: ['style-loader', 'css-loader', 'sass-loader'],
 			},
 			{
 				test: /\.(png|svg|jpg|jpeg|gif)$/i,
+				exclude: /node_modules/,
 				type: 'asset/resource',
 				loader: 'file-loader',
 				options: {
@@ -79,7 +79,12 @@ const config: Configuration = {
 			},
 			{
 				test: /\.(woff|woff2|eot|ttf|otf)$/i,
+				exclude: /node_modules/,
 				type: 'asset/resource',
+				loader: 'url-loader',
+				options: {
+					limit: 8192,
+				},
 			},
 		],
 	},
